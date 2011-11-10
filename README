@@ -6,6 +6,7 @@
 //	 |	      e-mail:stepanton@me.com		 |
 //	 |_______________________________________________|
 //
-
+параметры сборки
+g++ -Wall -o "%e" "%f" -I/usr/X11R6/include/ -L/usr/X11R6/lib -lX11   -lglut -lGL -lGLU
 
 
