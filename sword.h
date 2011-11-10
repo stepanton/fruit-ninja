@@ -1,10 +1,11 @@
 
 class sword {
-	public:
+    public:
 	int x,y,score;
 	sword (int ix=0, int iy=0, int iscore=0)
 	{x=ix; y=iy; score=iscore;}
 	void show();
+
 };
 void sword::show(){
 	 glColor3f(0, 0, 0);

@@ -1,13 +1,20 @@
 class subject {
-	public:
+	protected:
 		int x,y,angle;
 		double m,v;
 		float vv;
-	
+		int score;
+	public:
       subject (int ix=0, int iy=0,double im=0, double iv=0,int iangle=0)
-           { x=ix;y=iy;m=im;v=iv;angle=iangle; }
+           { x=ix;y=iy;m=im;v=iv;angle=iangle;}
            virtual void show(){};
-           void move();
+           virtual void move();
+           int rx(){return x;};
+           int ry(){return y;};
+           int rangle(){return angle;};
+           int rm(){return m;};
+           int rv(){return v;};
+           virtual int rscore(){return score;};
 };
 
 void subject:: move () {
@@ -17,12 +24,12 @@ y+=m;
 }
 
 class fruit: public subject {
-	protected :
-		int score;
+
 	public:
       fruit (int ix=0, int iy=0,int im=0, double iv=0,double iangle=0, int iscore=0)
            {x=ix;y=iy;m=im;v=iv;angle=iangle; score=iscore;  }
            void show();
+         
 };
 
 void fruit:: show () {     
@@ -54,6 +61,6 @@ void part:: show () {
 	glEnd();
 }
 void part::move(){
-x+=v;	
-	
+x+=3*v;
+y-=m;	
 }

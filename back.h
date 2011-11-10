@@ -10,6 +10,7 @@ class back {
 	public:
 	sword *sw;
 	subject **f;
+	subject **p;
 	void create();
 	void bg();
 	void draw();
@@ -21,34 +22,48 @@ back b;
 void back:: create() {
 	sw = new sword;
 	f = new subject*[10];
+	p = new subject*[21];
+
 	for (int i=0;i<10;i++)
-	f[i]=new fruit(rand()%Xwin,-1*rand()%Ywin,2,rand()%3-1,1,0); 
+	f[i]=new fruit(rand()%Xwin,-1*rand()%Ywin,2,rand()%3-1,1,rand()%10*10); 
+	for (int i=0;i<20;i++)
+	p[i]=new part; 
 }
 void back:: bg() { //paint background
 	  glBegin(GL_QUADS);	
 	glColor3f(0.5,0.5,0.5);glVertex3f( 0, 0, 0.0f);glVertex3f( 0,Ywin, 0.0f);glVertex3f(Xwin,Ywin, 0.0f);	glVertex3f(Xwin,0,0);
 	glEnd();
 }
+void back::collision(){
+	for (int i=0;i<10;i++)
+	if ((sw->x > f[i]->rx()-5)&&(sw->x < f[i]->rx()+20)&&(sw->y > f[i]->ry())&&(sw->y-35 < f[i]->ry()+35)){ 
+printf("score %d\n",sw->score);		
+{
+p[i]=new part(f[i]->rx(),f[i]->ry(),4,-2);
+p[i+10]=new part(f[i]->rx(),f[i]->ry(),4,2);
+f[i]=new fruit(rand()%Xwin,-1*rand()%Ywin,2,rand()%3-1,1,rand()%10*10);
+sw->score+=f[i]->rscore();
+}
+}
+
+}
 void back::draw(){
 	bg();
-	for (int i=0;i<10;i++)	
-	f[i]->show();
+	for (int i=0;i<10;i++){	
+	f[i]->show();p[i]->show();p[i+10]->show();}
 	sw->show();
+	
 }
 void back::move(){
 	for (int i=0;i<10;i++){	
-	f[i]->move();
-	if ((f[i]->x < 0)||(f[i]->x > Xwin)||(f[i]->y > Ywin)) 
+	f[i]->move();p[i]->move();p[i+10]->move();
+	if ((f[i]->rx() < 0)||(f[i]->rx() > Xwin)||(f[i]->ry() > Ywin)) 
 	f[i]=new fruit(rand()%Xwin,-1*rand()%Ywin,2,rand()%3-1,1,0); 
+
 }
 	
 }
-void back::collision(){
-	for (int i=0;i<10;i++)
-	if ((sw->x > f[i]->x)&&(sw->x < f[i]->x+20)&&(sw->y > f[i]->y)&&(sw->y-30 < f[i]->y+30)){ printf("collision with %d\n",i);
-f[i]=new part;
-}
-}
+
 void display(){
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	b.draw();
